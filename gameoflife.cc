@@ -1,31 +1,34 @@
-
+// The Game of Life Simulation
+// Written by Isaac Bleecker and Anthony Aardvark
 
 #include <iostream>
-#include <string>
+using std::cout;
+using std::cin;
+
 
 //provides for clearing the screen before displaying the board
-static const char ESC = 27; 
+static const char ESC = 27;
 
-//describes the number of rows, columns, and the borders.
-static const int activeRows = 18; 
-static const int activeCols = 50; 
-static const int totalRows = activeRows + 2;  
+//establishes the size of the board and its borders
+static const int activeRows = 18;
+static const int activeCols = 50;
+static const int totalRows = activeRows + 2;
 static const int totalCols = activeCols + 2;
+
+//establishes characters for the live cells and blank spaces
 static const char LIVECELL = '*';
 static const char NOCELL = ' ';
 
 //definines the enumeration Organism, which represents each square of the board
-enum Organism { NONE, GESTATING, LIVING, DYING };
+enum Organism { NONE, LIVING, DYING, GESTATING };
 
 Organism _board[totalRows][totalCols];
 
-int main()
-{
+int main() {
 	int startingOrgs; //number of organisms to begin with
 	cout << "How many organisms at the start: "; 
 	cin >> startingOrgs;
 	cout << startingOrgs;
-
 }
 
 //Before displaying the initial board, clears the screen
