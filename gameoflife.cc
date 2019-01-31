@@ -2,6 +2,9 @@
 // Written by Isaac Bleecker and Anthony Aardvark
 
 #include <iostream>
+#include <string>
+//TODO make sure these are necessary
+using namespace std;
 using std::cout;
 using std::cin;
 
@@ -25,10 +28,28 @@ enum Organism { NONE, LIVING, DYING, GESTATING };
 Organism _board[totalRows][totalCols];
 
 int main() {
-	int startingOrgs; //number of organisms to begin with
+	int startNumOrgs; //number of organisms to begin with
+	int locationCount = 0;
 	cout << "How many organisms at the start: "; 
-	cin >> startingOrgs;
-	cout << startingOrgs;
+	cin >> startNumOrgs;
+	string startingCoords[startNumOrgs];
+	for (int i = 1; i < startNumOrgs + 1; i += 1) {
+		cout << "Enter comma separated location " << i << ": ";
+		cin >> startingCoords[i-1];
+	}
+	string startingX[startNumOrgs];
+	string startingY[startNumOrgs];
+	for (int i = 1; i < startNumOrgs + 1; i += 1) {
+		startingX[i-1] = startingCoords[i-1][0];
+		//if next coordinate is a number add it
+			//then skip the comme and add the next
+				//check if the next character exists
+					//if it does add it
+		//else skip the comma and add the next
+			//check if next character exists
+				//if it does add it
+		cout << startingCoords[i-1];
+	}
 }
 
 //Before displaying the initial board, clears the screen
