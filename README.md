@@ -2,7 +2,7 @@
 
 Run program by downloading gameoflife.cc
 In terminal, type:
-g++ gameoflife.cc
-Then
-./a.out
+"g++ gameoflife.cc"
+Then:
+"./a.out"
 The game should begin running.
