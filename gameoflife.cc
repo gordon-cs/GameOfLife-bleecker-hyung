@@ -23,15 +23,17 @@ static const int totalCols = activeCols + 2;
 static const char LIVECELL = '*';
 static const char NOCELL = ' ';
 
-//definines the enumeration Organism, which represents each square of the board
+//defines the enumeration Organism, which represents each square of the board
 enum Organism { NONE, LIVING, DYING, GESTATING };
 
 
-void drawBoard2(Organism board[][totalCols]);
+void drawBoard2(Organism board[][totalCols], int xValues[], int yValues[], int numOrg);
+int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue);
+void generation(Organism board[][totalCols]);
 
 int main() {
 	int startNumOrgs; //number of organisms to begin with
-	cout << "How many organisms at the start: "; 
+	cout << "How many organisms at the start: ";
 	cin >> startNumOrgs;
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
@@ -42,53 +44,32 @@ int main() {
 		cin >> startingY[i];
 	}
 	//creates a board of Organisms
-	
-	enum Organism _board[totalRows][totalCols];
-	//alternatively
-	//cin >> y;
-	//cin >> y;
-	//string startingX[startNumOrgs];
-	//string startingY[startNumOrgs];
-	//for (int i = 1; i < startNumOrgs + 1; i += 1) {
-		//adds the first character to the X-coord array
-	//	startingX[i-1] = startingCoords[i-1][0];
 
-	//	int commaLocation = startingCoords[i-1].find(',');
-	//	int coordLength = startingCoords[i-1].length();
-
-		//checks to see if the x-coord is only one digit
-	//	if (commaLocation == 1) {
-	//		startingY[i-1] = startingCoords[i-1][2];
-			//two digit y-coord
-	//		if (coordLength == 4) {
-	//			startingY[i-1] += startingCoords[i-1][3];
-	//		}
-			
-	//	}
-		//two digit x-coord
-	//	else {
-	//		startingX[i-1] += startingCoords[i-1][1];
-	//		startingY[i-1] += startingCoords[i-1][3];
-			//two digit y-coord
-	//		if (coordLength == 5) {
-	//			startingY[i-1] += startingCoords[i-1][4];
-	//		}
-	//	}
-	//}
-	drawBoard2(_board);
+	enum Organism board[totalRows][totalCols];
+	//drawBoard2(board);
+	drawBoard2(board, startingX, startingY, startNumOrgs);
+	cout << checkNumNeighbors(board,1,1);
 }
 
 //draws the board V2
-void drawBoard2(Organism board[][totalCols]) {
+void drawBoard2(Organism board[][totalCols], int xValues[], int yValues[], int numOrg) {
 	//iterates through all the rows
 	for (int y = 0; y < totalRows; y++) {
 		//iterates through all the columns
 		for (int x = 0; x < totalCols; x++) {
 
-
+			//prints out * for corresponding points based on user input
+			for(int i = 0; i < numOrg; i++)
+			{
+				if(xValues[i]==x && yValues[i] == y)
+				{
+					cout << LIVECELL;
+					board[y][x] = LIVING;
+				}
+			}
 			//draws left border and left corners
 			if (x == 0) {
-				if (y == 0 or y == totalRows-1) {
+				if (y == 0 || y == totalRows-1) {
 					cout << "+";
 					continue;
 				}
@@ -97,7 +78,7 @@ void drawBoard2(Organism board[][totalCols]) {
 
 			//draws right border and right corners, creates newline
 			else if (x == totalCols-1) {
-				if (y == 0 or y == totalRows-1) {
+				if (y == 0 || y == totalRows-1) {
 					cout << "+" << endl;
 					continue;
 				}
@@ -105,20 +86,45 @@ void drawBoard2(Organism board[][totalCols]) {
 			}
 
 			//draws top and bottom borders
-			else if (y == 0 or y == totalRows-1) {
+			else if (y == 0 || y == totalRows-1) {
 				cout << "-";
 			}
-
-
-
 			//draws empty space
 			else {
 				cout << NOCELL;
+				board[y][x] = NONE;
 			}
+
 		}
+
 	}
 }
 
+
+int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue)
+{
+			int count = 0;
+			//board[yValue][xValue] = LIVING;
+			cout << board[yValue][xValue];
+			if(yValue == 1 && xValue==1 && board[yValue][xValue] == LIVING)
+			{
+				cout << "inside the if statement";
+				if(board[yValue+1][xValue] == LIVING)
+				{
+					count++;
+				}
+				else if (board[yValue+1][xValue+1] == LIVING)
+				{
+					count++;
+				}
+				else if (board[yValue][xValue+1] == LIVING)
+				{
+					count++;
+				}
+				return count;
+			}
+			return count;
+}
 
 
 
@@ -129,11 +135,7 @@ void drawBoard2(Organism board[][totalCols]) {
 //cout << ESC << "[23;1H" << ESC << "[K"  << "Press RETURN to continue"; 
 //while (cin.get() != '\n') {}
 
-//Before displaying the next board, moves the cursor to the top of the screen. 
+//Before displaying the next board, moves the cursor to the top of the screen.
 //Makes the changing boards appear as an animation
 //TODO: replace some variable with the generationCount
 //cout << ESC << "[H" << "Generation " << some variable << ":" << endl;
-
-
-
-
