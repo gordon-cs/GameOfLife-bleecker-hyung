@@ -26,11 +26,11 @@ static const char NOCELL = ' ';
 //defines the enumeration Organism, which represents each square of the board
 enum Organism { NONE, LIVING, DYING, GESTATING };
 
-
-void drawBoard2(Organism board[][totalCols]);
+void drawBoard(Organism board[][totalCols]);
 int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue);
-void generation(Organism board[][totalCols]);
+void generation(Organism checkedboard[][totalCols], Organism board[][totalCols]);
 void initialBoard(Organism board[][totalCols], int xValues[], int yValues[], int numOrg);
+void copyBoard(Organism board[][totalCols], Organism newboard[][totalCols]);
 
 int main() {
 	int startNumOrgs; //number of organisms to begin with
@@ -49,19 +49,52 @@ int main() {
 	cin >> numGen;
 	while (cin.get() != '\n') {}
 	//creates a board of Organisms
-
 	enum Organism board[totalRows][totalCols];
-	//drawBoard2(board);
+	//creates another version of board of Organisms
+	enum Organism newboard[totalRows][totalCols];
+	//initilize cells to living or not based on coordinates
 	initialBoard(board, startingX, startingY, startNumOrgs);
+	//clears screen
 	cout << ESC << "[H" << ESC << "[J" << "Initial:" << endl;
-	drawBoard2(board);
-	cout << ESC << "[H" << "Generation " << numGen << ":" << endl;
-
+	//prints out initial board
+	drawBoard(board);
+	//waits till you press return to continue
 	cout << ESC << "[23;1H" << ESC << "[K"
 	<< "Press RETURN to continue";
 	while(cin.get() != '\n') {}
+	//iterates through all generations
+	for(int i=1; i<=numGen; i++)
+	{
+		//copy board to newboard
+		copyBoard(board, newboard);
+		//change board by referencing newboard
+		generation(board, newboard);
+		//clears screen and prints generation number
+		cout << ESC << "[H" << ESC << "[J" << "Generation " << i << ":" << endl;
+		//display changed board
+		drawBoard(board);
+		//waits till you press return to continue
+		cout << ESC << "[23;1H" << ESC << "[K"
+		<< "Press RETURN to continue";
+		while(cin.get() != '\n') {}
+	}
+
 }
 
+//copy board to newboard
+void copyBoard(Organism board[][totalCols], Organism newboard[][totalCols])
+{
+	//iterates through all the rows
+	for (int y = 0; y < totalRows; y++)
+	{
+		//iterates through all the columns
+		for (int x = 0; x < totalCols; x++)
+		{
+			//copies each cell from board to newboard
+			newboard[y][x] = board[y][x];
+		}
+}
+}
 //Initilizes every cell as living or not
 void initialBoard(Organism board[][totalCols], int xValues[], int yValues[], int numOrg ) {
 	//iterates through all the rows
@@ -83,8 +116,8 @@ void initialBoard(Organism board[][totalCols], int xValues[], int yValues[], int
 		}
 	}
 }
-//draws the board V2
-void drawBoard2(Organism board[][totalCols]) {
+//draws the board
+void drawBoard(Organism board[][totalCols]) {
 	//iterates through all the rows
 	for (int y = 0; y < totalRows; y++) {
 		//iterates through all the columns
@@ -151,7 +184,32 @@ int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue)
 				return count;
 }
 
-
+//changes the board according to the rules
+void generation(Organism board[][totalCols], Organism newboard[][totalCols])
+{
+	//iterate through all the rows
+	for (int y = 1; y < totalRows-1; y++) {
+		//iterates through all the columns
+		for (int x = 1; x < totalCols-1; x++) {
+			if(newboard[y][x] == LIVING)
+			{
+				//kills if too few or too many neighbors
+				if(checkNumNeighbors(newboard, x, y) < 2 || checkNumNeighbors(newboard, x, y) >3)
+				{
+					board[y][x] = NONE;
+				}
+			}
+			else
+			{
+				//creates living organism if 3 neighbors
+				if(checkNumNeighbors(newboard, x, y) == 3)
+				{
+					board[y][x] = LIVING;
+				}
+			}
+		}
+}
+}
 
 
 
