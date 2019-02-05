@@ -28,8 +28,8 @@ enum Organism { NONE, LIVING, DYING, GESTATING };
 
 
 void drawBoard2(Organism board[][totalCols]);
-//int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue);
-//void generation(Organism board[][totalCols]);
+int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue);
+void generation(Organism board[][totalCols]);
 void initialBoard(Organism board[][totalCols], int xValues[], int yValues[], int numOrg);
 
 int main() {
@@ -44,24 +44,35 @@ int main() {
 		cin >> startingX[i];
 		cin >> startingY[i];
 	}
+	int numGen;
+	cout <<"Generations? ";
+	cin >> numGen;
+	while (cin.get() != '\n') {}
 	//creates a board of Organisms
 
 	enum Organism board[totalRows][totalCols];
 	//drawBoard2(board);
 	initialBoard(board, startingX, startingY, startNumOrgs);
+	cout << ESC << "[H" << ESC << "[J" << "Initial:" << endl;
 	drawBoard2(board);
-	//cout << checkNumNeighbors(board,1,1);
+	cout << ESC << "[H" << "Generation " << numGen << ":" << endl;
+
+	cout << ESC << "[23;1H" << ESC << "[K"
+	<< "Press RETURN to continue";
+	while(cin.get() != '\n') {}
 }
 
-//Initilizes points 
+//Initilizes every cell as living or not
 void initialBoard(Organism board[][totalCols], int xValues[], int yValues[], int numOrg ) {
+	//iterates through all the rows
 	for (int y = 0; y < totalRows; y++)
 	{
 		//iterates through all the columns
 		for (int x = 0; x < totalCols; x++)
 		{
+			//first initilize every row to none
 			board[y][x] = NONE;
-			//initilize if the cell is living or not
+			//then initilize if the cell is living or not
 			for(int i = 0; i < numOrg; i++)
 			{
 				if(xValues[i]==x && yValues[i] == y)
@@ -115,32 +126,34 @@ void drawBoard2(Organism board[][totalCols]) {
 }
 }
 
-/*
+//checks number of living neighbors at a single point
 int checkNumNeighbors(Organism board[][totalCols], int xValue, int yValue)
 {
-			int count = 0;
-			//board[yValue][xValue] = LIVING;
-			cout << board[yValue][xValue];
-			if(yValue == 1 && xValue==1 && board[yValue][xValue] == LIVING)
-			{
-				cout << "inside the if statement";
-				if(board[yValue+1][xValue] == LIVING)
+				int count = 0;
+				//iterate through all the rows
+				for (int y = yValue-1; y<=yValue+1; y++)
 				{
-					count++;
-				}
-				else if (board[yValue+1][xValue+1] == LIVING)
-				{
-					count++;
-				}
-				else if (board[yValue][xValue+1] == LIVING)
-				{
-					count++;
+					//iterate through all the columns
+					for(int x = xValue-1; x<=xValue+1; x++)
+					{
+						//exclude counting yourself
+						if(y==yValue && x==xValue)
+						{
+							continue;
+						}
+						//if neighbor is living, count them up
+						else if(board[y][x] == LIVING)
+						{
+							count++;
+						}
+					}
 				}
 				return count;
-			}
-			return count;
 }
-*/
+
+
+
+
 
 
 //Before displaying the initial board, clears the screen
