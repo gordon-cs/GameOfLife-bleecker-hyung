@@ -4,10 +4,8 @@ To run this program, first download gameoflife.cc.
 
 In terminal, type:  
 
-"g++ gameoflife.cc" 
+  make
 
-Then:  
+then:
 
-"./a.out". 
-
-The game should begin running.
+  ./gameoflife
