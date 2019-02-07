@@ -2,10 +2,10 @@
 
 To run this program, first download this directory.  
 
-In terminal, type:  
+Navigate to it in terminal, then type:  
 
-  make
+    make
 
 then:
-
-  ./gameoflife
+ 
+    ./gameoflife
