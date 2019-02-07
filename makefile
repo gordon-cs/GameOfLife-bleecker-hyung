@@ -1,3 +1,3 @@
-gameoflife2: gameoflife2.o
-		g++ -o gameoflife gameoflife2.o
+gameoflife: gameoflife.o
+		g++ -o gameoflife gameoflife.o
 gameoflife.o: gameoflife.h
