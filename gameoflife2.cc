@@ -30,7 +30,7 @@ int main() {
 	int numGen;
 	cout <<"Generations? ";
 	cin >> numGen;
-  Board board = new Board();
+  Board board;
   while (cin.get() != '\n') {}
 	//initilize cells to living or not based on coordinates
 	board.setInitialBoard(startingX, startingY, startNumOrgs);
@@ -134,7 +134,17 @@ void Board::printBoard()
 }
 void Board::generation()
 {
-  Board newboard= new Board();
+  Board newboard;
+
+  //iterates through all the rows
+	for (int y = 0; y < totalRows; y++)
+	{
+		//iterates through all the columns
+		for (int x = 0; x < totalCols; x++)
+		{
+			//copies each cell from board to newboard
+			newboard.setState(x,y,_board[y][x]);
+		}
   //iterate through all the rows
 	for (int y = 1; y < totalRows-1; y++) {
 		//iterates through all the columns
@@ -157,6 +167,12 @@ void Board::generation()
 			}
 		}
 }
+}
+}
+
+void Board::setState(int x, int y, Organism state)
+{
+  _board[y][x] = state;
 }
 int Board::getNumNeighbors(int xValue, int yValue)
 {
