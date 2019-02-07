@@ -145,6 +145,7 @@ void Board::generation()
 			//copies each cell from board to newboard
 			newboard.setState(x,y,_board[y][x]);
 		}
+  }
   //iterate through all the rows
 	for (int y = 1; y < totalRows-1; y++) {
 		//iterates through all the columns
@@ -166,7 +167,6 @@ void Board::generation()
 				}
 			}
 		}
-}
 }
 }
 
