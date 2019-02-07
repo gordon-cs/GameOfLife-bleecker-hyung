@@ -14,6 +14,7 @@ class Board
     int getNumNeighbors(int x, int y);
     void generation();
     Organism getState(int x, int y);
+    void setState(int x, int y, Organism state);
 
   private:
     Organism _board[totalRows][totalCols];
