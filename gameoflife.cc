@@ -2,8 +2,6 @@
 #include <string>
 #include <algorithm>
 #include "gameoflife.h"
-//TODO make sure these are necessary
-using std::string;
 using std::cout;
 using std::cin;
 using std::endl;
@@ -73,24 +71,16 @@ Board::Board()
   }
 }
 
+//places living organisms on the board according to coordinates
 void Board::setInitialBoard(int xValues[], int yValues[], int numOrg)
 {
-  for (int y = 0; y < totalRows; y++)
+	for(int i = 0; i < numOrg; i++)
 	{
-		//iterates through all the columns
-		for (int x = 0; x < totalCols; x++)
-		{
-			//initilize if the cell is living or not
-			for(int i = 0; i < numOrg; i++)
-			{
-				if(xValues[i]==x && yValues[i] == y)
-				{
-					_board[y][x] = Organism::LIVING;
-				}
-			}
-		}
+		_board[yValues[i]][xValues[i]] = Organism::LIVING;
 	}
 }
+
+
 void Board::printBoard()
 {
   for (int y = 0; y < totalRows; y++) {
@@ -150,10 +140,11 @@ void Board::generation()
 	for (int y = 1; y < totalRows-1; y++) {
 		//iterates through all the columns
 		for (int x = 1; x < totalCols-1; x++) {
+			
 			if(newboard.getState(x,y) == Organism::LIVING)
 			{
 				//kills if too few or too many neighbors
-				if(getNumNeighbors(x, y) < 2 || getNumNeighbors(x, y) >3)
+				if(newboard.getNumNeighbors(x, y) < 2 || newboard.getNumNeighbors(x, y) >3)
 				{
 					_board[y][x] = Organism::NONE;
 				}
@@ -161,7 +152,7 @@ void Board::generation()
 			else
 			{
 				//creates living organism if 3 neighbors
-				if(getNumNeighbors(x, y) == 3)
+				if(newboard.getNumNeighbors(x, y) == 3)
 				{
 					_board[y][x] = Organism::LIVING;
 				}
