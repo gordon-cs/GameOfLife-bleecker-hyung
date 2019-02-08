@@ -83,22 +83,26 @@ void Board::setInitialBoard(int xValues[], int yValues[], int numOrg)
 
 void Board::printBoard()
 {
-  for (int y = 0; y < totalRows; y++) {
-		//iterates through all the columns
+	//iterates through each row
+	for (int y = 0; y < totalRows; y++) {
+		
+		//iterates through each column
 		for (int x = 0; x < totalCols; x++) {
 
-			//draws left border and left corners
+			//draws left side border and corners
 			if (x == 0) {
-				if (y == 0 || y == totalRows-1) {
+				if (y == 0 || y == totalRows-1) 
+				{
 					cout << "+";
 					continue;
 				}
 				cout << "|";
 			}
 
-			//draws right border and right corners, creates newline
+			//draws right side border and corners, creates newline
 			else if (x == totalCols-1) {
-				if (y == 0 || y == totalRows-1) {
+				if (y == 0 || y == totalRows-1) 
+				{
 					cout << "+" << endl;
 					continue;
 				}
@@ -106,27 +110,35 @@ void Board::printBoard()
 			}
 
 			//draws top and bottom borders
-			else if (y == 0 || y == totalRows-1) {
+			else if (y == 0 || y == totalRows-1) 
+			{
 				cout << "-";
 			}
-			//draws * or " " depending on state of cell
-			else {
+			
+			//draws non-border center area
+			else 
+			{
 				if(_board[y][x] == Organism::LIVING)
 				{
+					//draws live cell
 					cout << LIVECELL;
 				}
 				else{
+					//draws blank space (no cell)
 					cout << NOCELL;
 				}
 			}
 		}
+	}
 }
-}
+
+//
 void Board::generation()
 {
-  Board newboard;
+	//creates a new board to store a copy of the original board in
+	Board newboard;
 
-  //iterates through all the rows
+	//iterates through all the rows
 	for (int y = 0; y < totalRows; y++)
 	{
 		//iterates through all the columns
@@ -135,8 +147,8 @@ void Board::generation()
 			//copies each cell from board to newboard
 			newboard.setState(x,y,_board[y][x]);
 		}
-  }
-  //iterate through all the rows
+	}
+	//iterate through all the rows
 	for (int y = 1; y < totalRows-1; y++) {
 		//iterates through all the columns
 		for (int x = 1; x < totalCols-1; x++) {
@@ -161,34 +173,52 @@ void Board::generation()
 }
 }
 
-void Board::setState(int x, int y, Organism state)
+
+// Sets the state of an organism in a board
+// x is the x coordinate of the organism
+// y is the y coordinate of the organism
+// state is the enumeration state to set the organism to
+void Board::setState(int xCoord, int yCoord, Organism state)
 {
-  _board[y][x] = state;
+	_board[yCoord][xCoord] = state;
 }
-int Board::getNumNeighbors(int xValue, int yValue)
+
+
+// Returns the number of living neighbors of an organism in a board
+// xValue is the x coordinate of the organism
+// yValue is the y coordinate of the organism
+int Board::getNumNeighbors(int xCoord, int yCoord)
 {
-  int count = 0;
-  //iterate through all the rows
-  for (int y = yValue-1; y<=yValue+1; y++)
-  {
-    //iterate through all the columns
-    for(int x = xValue-1; x<=xValue+1; x++)
-    {
-      //exclude counting yourself
-      if(y==yValue && x==xValue)
-      {
-        continue;
-      }
-      //if neighbor is living, count them up
-      else if(_board[y][x] == Organism::LIVING)
-      {
-        count++;
-      }
-    }
-  }
-  return count;
+	// initalizes counter for live neighbors
+	int liveCount = 0;
+	// iterate through all the rows
+	for (int y = yCoord-1; y<=yCoord+1; y++)
+	{
+		// iterate through all the columns
+		for(int x = xCoord-1; x<=xCoord+1; x++)
+		{
+			// excludes counting the middle organism (not a neighbor)
+			if(y==yCoord && x==xCoord)
+			{
+				continue;
+			}
+			// if neighbor is living, increment count
+			else if(_board[y][x] == Organism::LIVING)
+			{
+				liveCount++;
+			}
+		}
+	}
+	return liveCount;
 }
-Organism Board::getState(int x, int y)
+
+
+// Returns the enumeration state of an organism in a board
+// x is the x coordinate of the organism
+// y is the y coordinate of the organism
+Organism Board::getState(int xCoord, int yCoord)
 {
-  return _board[y][x];
+	return _board[yCoord][xCoord];
 }
+
+
