@@ -102,6 +102,9 @@ Board::Board()
 
 
 // Places living organisms on the board according to coordinates
+// xValues is an array of the x coordinates
+// yValues is an array of the y coordinates
+// numOrg is the number of organisms (also the size of the x and y arrays)
 void Board::setInitialBoard(int xValues[], int yValues[], int numOrg)
 {
 	for(int i = 0; i < numOrg; i++)
