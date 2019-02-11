@@ -6,7 +6,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-//provides for clearing the screen before displaying the _board
+//provides for clearing the screen before displaying the board
 static const char ESC = 27;
 
 //establishes characters for the live cells and blank spaces
@@ -15,13 +15,13 @@ static const char NOCELL = ' ';
 
 int main() {
   int startNumOrgs; //number of organisms to begin with
-	cout << "How many organisms at the start: ";
+	cout << "How many organisms initially? ";
 	cin >> startNumOrgs;
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
 	//string startingCoords[startNumOrgs];
+  cout << "Locations? ";
 	for (int i = 0; i < startNumOrgs; i += 1) {
-		cout << "Enter coordinates for organism " << i + 1 << ": ";
 		cin >> startingX[i];
 		cin >> startingY[i];
 	}
