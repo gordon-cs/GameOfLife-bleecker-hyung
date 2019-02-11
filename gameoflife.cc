@@ -6,7 +6,7 @@ using std::cout;
 using std::cin;
 using std::endl;
 
-//provides for clearing the screen before displaying the _board
+//provides for clearing the screen before displaying the board
 static const char ESC = 27;
 
 //establishes characters for the live cells and blank spaces
