@@ -15,13 +15,13 @@ static const char NOCELL = ' ';
 
 int main() {
   int startNumOrgs; //number of organisms to begin with
-	cout << "How many organisms at the start: ";
+	cout << "How many organisms initially? ";
 	cin >> startNumOrgs;
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
 	//string startingCoords[startNumOrgs];
 	for (int i = 0; i < startNumOrgs; i += 1) {
-		cout << "Enter coordinates for organism " << i + 1 << ": ";
+		cout << "Locations? ";
 		cin >> startingX[i];
 		cin >> startingY[i];
 	}
@@ -50,9 +50,12 @@ int main() {
 		//display changed board
 		board.printBoard();
 		//waits till you press return to continue
-		cout << ESC << "[23;1H" << ESC << "[K"
-		<< "Press RETURN to continue";
-		while(cin.get() != '\n') {}
+    if(i!=numGen)
+    {
+		    cout << ESC << "[23;1H" << ESC << "[K"
+		    << "Press RETURN to continue";
+		    while(cin.get() != '\n') {}
+    }
 	}
 
 }
@@ -85,13 +88,13 @@ void Board::printBoard()
 {
 	//iterates through each row
 	for (int y = 0; y < totalRows; y++) {
-		
+
 		//iterates through each column
 		for (int x = 0; x < totalCols; x++) {
 
 			//draws left side border and corners
 			if (x == 0) {
-				if (y == 0 || y == totalRows-1) 
+				if (y == 0 || y == totalRows-1)
 				{
 					cout << "+";
 					continue;
@@ -101,7 +104,7 @@ void Board::printBoard()
 
 			//draws right side border and corners, creates newline
 			else if (x == totalCols-1) {
-				if (y == 0 || y == totalRows-1) 
+				if (y == 0 || y == totalRows-1)
 				{
 					cout << "+" << endl;
 					continue;
@@ -110,13 +113,13 @@ void Board::printBoard()
 			}
 
 			//draws top and bottom borders
-			else if (y == 0 || y == totalRows-1) 
+			else if (y == 0 || y == totalRows-1)
 			{
 				cout << "-";
 			}
-			
+
 			//draws non-border center area
-			else 
+			else
 			{
 				if(_board[y][x] == Organism::LIVING)
 				{
@@ -152,7 +155,7 @@ void Board::generation()
 	for (int y = 1; y < totalRows-1; y++) {
 		//iterates through all the columns
 		for (int x = 1; x < totalCols-1; x++) {
-			
+
 			if(newboard.getState(x,y) == Organism::LIVING)
 			{
 				//kills if too few or too many neighbors
@@ -220,5 +223,3 @@ Organism Board::getState(int xCoord, int yCoord)
 {
 	return _board[yCoord][xCoord];
 }
-
-
