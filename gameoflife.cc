@@ -20,8 +20,8 @@ int main() {
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
 	//string startingCoords[startNumOrgs];
+  cout << "Locations? ";
 	for (int i = 0; i < startNumOrgs; i += 1) {
-		cout << "Locations? ";
 		cin >> startingX[i];
 		cin >> startingY[i];
 	}
