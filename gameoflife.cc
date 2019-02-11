@@ -1,80 +1,107 @@
+// Conway's Game of Life
+// Programmed by Sehee Hyung and Isaac Bleecker
+
 #include <iostream>
 #include <string>
 #include <algorithm>
+
+// Header file
 #include "gameoflife.h"
+
+// I/O declarations
 using std::cout;
 using std::cin;
 using std::endl;
 
-//provides for clearing the screen before displaying the board
+// Provides for clearing the screen before displaying the board
 static const char ESC = 27;
 
-//establishes characters for the live cells and blank spaces
+// Establishes characters for the live cells and blank spaces
 static const char LIVECELL = '*';
 static const char NOCELL = ' ';
 
+
+
+// Runs Conway's Game of Life
 int main() {
-  int startNumOrgs; //number of organisms to begin with
+
+	int startNumOrgs; // Number of organisms to begin with
+	
+	// User inputs initial number of organisms
 	cout << "How many organisms initially? ";
 	cin >> startNumOrgs;
+	
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
-	//string startingCoords[startNumOrgs];
-  cout << "Locations? ";
+
+	// User inputs coordinates of starting locations for each organism
+	cout << "Locations? ";
 	for (int i = 0; i < startNumOrgs; i += 1) {
 		cin >> startingX[i];
 		cin >> startingY[i];
 	}
-	int numGen;
+
+	int numGen; // Number of generations the game will run
+
+	// User inputs number of generations
 	cout <<"Generations? ";
 	cin >> numGen;
-  Board board;
-  while (cin.get() != '\n') {}
-	//initilize cells to living or not based on coordinates
+
+	// Creates the board of organisms
+	Board board;
+	while (cin.get() != '\n') {}
+	
+	// Initilize cells in board to living or not based on coordinates
 	board.setInitialBoard(startingX, startingY, startNumOrgs);
-	//clears screen
+	// Clears screen
 	cout << ESC << "[H" << ESC << "[J" << "Initial:" << endl;
-	//prints out initial board
+	// Prints out initial board
 	board.printBoard();
-	//waits till you press return to continue
+
+	// Waits till you press return to continue
 	cout << ESC << "[23;1H" << ESC << "[K"
 	<< "Press RETURN to continue";
 	while(cin.get() != '\n') {}
-	//iterates through all generations
+	
+	// Iterates through all generations
 	for(int i=1; i<=numGen; i++)
 	{
-		//change board by referencing newboard
+		// Advances the Game of Life one generation, updates the board
 		board.generation();
-		//clears screen and prints generation number
+		// Clears screen and prints generation number
 		cout << ESC << "[H" << ESC << "[J" << "Generation " << i << ":" << endl;
-		//display changed board
+		// Display changed board
 		board.printBoard();
-		//waits till you press return to continue
-    if(i!=numGen)
-    {
+		// Waits till you press return to continue, unless it is the final generation
+    	if(i!=numGen)
+    	{
 		    cout << ESC << "[23;1H" << ESC << "[K"
 		    << "Press RETURN to continue";
 		    while(cin.get() != '\n') {}
-    }
+    	}
 	}
-
 }
 
+
+
+
+// The board object initializes to an array of organisms, all with value NONE
 Board::Board()
 {
-  //iterates through all the rows
+  // Iterates through all the rows
 	for (int y = 0; y < totalRows; y++)
-  {
-		//iterates through all the columns
+	{
+		// Iterates through all the columns
 		for (int x = 0; x < totalCols; x++)
-    {
-			//first initilize every row to none
+		{
+			// Initilize every row to NONE
 			_board[y][x] = Organism::NONE;
-    }
-  }
+		}
+	}
 }
 
-//places living organisms on the board according to coordinates
+
+// Places living organisms on the board according to coordinates
 void Board::setInitialBoard(int xValues[], int yValues[], int numOrg)
 {
 	for(int i = 0; i < numOrg; i++)
@@ -84,6 +111,7 @@ void Board::setInitialBoard(int xValues[], int yValues[], int numOrg)
 }
 
 
+// Prints out the board and border according to the values in the array of organisms
 void Board::printBoard()
 {
 	//iterates through each row
@@ -118,7 +146,7 @@ void Board::printBoard()
 				cout << "-";
 			}
 
-			//draws non-border center area
+			//draws non-border (area of gameplay)
 			else
 			{
 				if(_board[y][x] == Organism::LIVING)
@@ -135,7 +163,9 @@ void Board::printBoard()
 	}
 }
 
-//
+
+// Runs through a generation of Conway's Game of Life
+// Clones the initial board, and uses that to check the rules of creating and destroying organisms
 void Board::generation()
 {
 	//creates a new board to store a copy of the original board in
@@ -152,10 +182,12 @@ void Board::generation()
 		}
 	}
 	//iterate through all the rows
-	for (int y = 1; y < totalRows-1; y++) {
+	for (int y = 1; y < totalRows-1; y++) 
+	{
 		//iterates through all the columns
-		for (int x = 1; x < totalCols-1; x++) {
-
+		for (int x = 1; x < totalCols-1; x++) 
+		{
+			//handles living organism
 			if(newboard.getState(x,y) == Organism::LIVING)
 			{
 				//kills if too few or too many neighbors
@@ -164,6 +196,7 @@ void Board::generation()
 					_board[y][x] = Organism::NONE;
 				}
 			}
+			//handles spaces with no organisms
 			else
 			{
 				//creates living organism if 3 neighbors
@@ -173,7 +206,7 @@ void Board::generation()
 				}
 			}
 		}
-}
+	}
 }
 
 
@@ -187,9 +220,10 @@ void Board::setState(int xCoord, int yCoord, Organism state)
 }
 
 
-// Returns the number of living neighbors of an organism in a board
-// xValue is the x coordinate of the organism
-// yValue is the y coordinate of the organism
+// Gets the number of living neighbors around an organism
+// xCoord is the x coordinate of the organism
+// yCoord is the y coordinate of the organism
+// Returns the number of living neighbors around a central organism
 int Board::getNumNeighbors(int xCoord, int yCoord)
 {
 	// initalizes counter for live neighbors
@@ -216,9 +250,10 @@ int Board::getNumNeighbors(int xCoord, int yCoord)
 }
 
 
-// Returns the enumeration state of an organism in a board
-// x is the x coordinate of the organism
-// y is the y coordinate of the organism
+// Gets the state of an organism within a board
+// xCoord is the x coordinate of the organism
+// yCoord is the y coordinate of the organism
+// Returns the state of the organism enumeration in a board
 Organism Board::getState(int xCoord, int yCoord)
 {
 	return _board[yCoord][xCoord];
