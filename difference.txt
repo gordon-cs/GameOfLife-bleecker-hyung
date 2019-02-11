@@ -1,0 +1,20 @@
+The only difference in our comparison with the proffesor's code was the word "Demo Version". 
+
+
+1c1,2
+< How many organisms initially? Locations? Generations? [H[JInitial:
+---
+> *** PROFESSOR'S DEMO VERSION ***
+> How many organisms initially? Locations? Generations? [H[JDemo Version - Initial:
+22c23
+< [23;1H[KPress RETURN to continue[H[JGeneration 1:
+---
+> [23;1H[KPress RETURN to continue[H[JDemo Version - Generation 1:
+43c44
+< [23;1H[KPress RETURN to continue[H[JGeneration 2:
+---
+> [23;1H[KPress RETURN to continue[H[JDemo Version - Generation 2:
+64c65
+< [23;1H[KPress RETURN to continue[H[JGeneration 3:
+---
+> [23;1H[KPress RETURN to continue[H[JDemo Version - Generation 3:
