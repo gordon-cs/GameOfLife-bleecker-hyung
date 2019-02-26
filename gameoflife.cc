@@ -26,19 +26,20 @@ static const char NOCELL = ' ';
 int main() {
 
 	int startNumOrgs; // Number of organisms to begin with
-	
+
 	// User inputs initial number of organisms
 	cout << "How many organisms initially? ";
 	cin >> startNumOrgs;
-	
+
 	int startingX[startNumOrgs];
 	int startingY[startNumOrgs];
 
 	// User inputs coordinates of starting locations for each organism
 	cout << "Locations? ";
 	for (int i = 0; i < startNumOrgs; i += 1) {
-		cin >> startingX[i];
+                //RT was reading x y, but should read as row col (y x)
 		cin >> startingY[i];
+		cin >> startingX[i];
 	}
 
 	int numGen; // Number of generations the game will run
@@ -50,7 +51,7 @@ int main() {
 	// Creates the board of organisms
 	Board board;
 	while (cin.get() != '\n') {}
-	
+
 	// Initilize cells in board to living or not based on coordinates
 	board.setInitialBoard(startingX, startingY, startNumOrgs);
 	// Clears screen
@@ -62,7 +63,7 @@ int main() {
 	cout << ESC << "[23;1H" << ESC << "[K"
 	<< "Press RETURN to continue";
 	while(cin.get() != '\n') {}
-	
+
 	// Iterates through all generations
 	for(int i=1; i<=numGen; i++)
 	{
@@ -185,10 +186,10 @@ void Board::generation()
 		}
 	}
 	//iterate through all the rows
-	for (int y = 1; y < totalRows-1; y++) 
+	for (int y = 1; y < totalRows-1; y++)
 	{
 		//iterates through all the columns
-		for (int x = 1; x < totalCols-1; x++) 
+		for (int x = 1; x < totalCols-1; x++)
 		{
 			//handles living organism
 			if(newboard.getState(x,y) == Organism::LIVING)
@@ -212,7 +213,8 @@ void Board::generation()
 	}
 }
 
-
+//RT: These more detailed prolog comments really belong in the .h
+//    file, where users of the class can read them.
 // Sets the state of an organism in a board
 // x is the x coordinate of the organism
 // y is the y coordinate of the organism
